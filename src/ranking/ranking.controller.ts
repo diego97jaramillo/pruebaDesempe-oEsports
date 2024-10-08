@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { RankingService } from './ranking.service';
 import { CreateRankingDto } from './dto/create-ranking.dto';
 import { UpdateRankingDto } from './dto/update-ranking.dto';
+import { xApiKey } from 'src/common/guards/x-api.guard';
 
 @Controller('ranking')
 export class RankingController {
@@ -12,6 +13,7 @@ export class RankingController {
     return this.rankingService.create(createRankingDto);
   }
 
+  @UseGuards(xApiKey)
   @Get()
   findAll() {
     return this.rankingService.findAll();

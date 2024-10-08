@@ -1,4 +1,5 @@
 import { Ranking } from "src/ranking/entities/ranking.entity";
+import { Result } from "src/result/entities/result.entity";
 import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("tournaments")
@@ -26,4 +27,7 @@ export class Tournament {
 
     @OneToMany(() => Ranking, ranking => ranking.tournament)
     rankings: Ranking[]
+
+    @OneToMany(() => Result, result => result.tournament)
+    results: Result[]
 }
