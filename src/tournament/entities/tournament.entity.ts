@@ -1,5 +1,5 @@
 import { Ranking } from "src/ranking/entities/ranking.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("tournaments")
 export class Tournament {
@@ -11,6 +11,18 @@ export class Tournament {
 
     @Column("text")
     location: string
+
+    @Column("text")
+    endDate: Date
+
+    @Column("text")
+    startDate: Date
+
+    @Column("text", {default: new Date().toISOString()})
+    createdAt: Date;
+
+    @DeleteDateColumn({select: false})
+    deletedAt: Date
 
     @OneToMany(() => Ranking, ranking => ranking.tournament)
     rankings: Ranking[]

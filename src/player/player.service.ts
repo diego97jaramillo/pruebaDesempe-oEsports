@@ -23,9 +23,9 @@ export class PlayerService {
   }
 
   async update(id: string, updatePlayerDto: UpdatePlayerDto) {
-    let userFound = await this.findOne(id)
+    const userFound = await this.findOne(id)
     if (!userFound) {
-      throw new NotFoundException(`Player with ID: ${id} was not found`)
+      throw new NotFoundException(`Player with ID: ${id.toUpperCase()} was not found`)
     }
     const result = await this.playerRepository.update(id, updatePlayerDto)
     const userUpdated = await this.findOne(id)
@@ -34,7 +34,11 @@ export class PlayerService {
     }
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const userFound = await this.findOne(id)
+    if (!userFound) {
+      throw new NotFoundException(`Player with ID: ${id.toUpperCase()} was not found`)
+    }
     return this.playerRepository.softDelete(id)
   }
 }

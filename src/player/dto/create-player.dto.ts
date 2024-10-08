@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer"
-import { IsDate, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator"
+import { IsDate, IsISO8601, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator"
 
 export class CreatePlayerDto {
 
@@ -23,7 +23,7 @@ export class CreatePlayerDto {
     password: string
 
     @IsNotEmpty()
-    @Transform(({value}) => new Date(value))
-    @IsDate()
+    @IsISO8601()
+    @Transform(({value}) => new Date(value).toISOString())
     birthdate: Date
 }

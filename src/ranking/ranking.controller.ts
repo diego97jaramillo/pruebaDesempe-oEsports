@@ -19,16 +19,16 @@ export class RankingController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.rankingService.findOne(+id);
+    return this.rankingService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRankingDto: UpdateRankingDto) {
-    return this.rankingService.update(+id, updateRankingDto);
+    return this.rankingService.update(id, updateRankingDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.rankingService.remove(+id);
+    return this.rankingService.remove(id);
   }
 }

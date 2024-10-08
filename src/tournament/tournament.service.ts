@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTournamentDto } from './dto/create-tournament.dto';
 import { UpdateTournamentDto } from './dto/update-tournament.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,23 +10,34 @@ export class TournamentService {
   constructor(@InjectRepository(Tournament) private readonly tournamentRepository: Repository<Tournament>) {}
 
   create(createTournamentDto: CreateTournamentDto) {
-    const tournament = this.tournamentRepository.create(createTournamentDto)
-    return this.tournamentRepository.save(tournament)
+    const tournament = this.tournamentRepository.create(createTournamentDto);
+    return this.tournamentRepository.save(tournament);
   }
 
   findAll() {
-    return `This action returns all tournament`;
+    return this.tournamentRepository.find({relations: {rankings: true}})
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tournament`;
+  findOne(id: string) {
+    return this.tournamentRepository.findOneBy({id});
   }
 
-  update(id: number, updateTournamentDto: UpdateTournamentDto) {
-    return `This action updates a #${id} tournament`;
+  async update(id: string, updateTournamentDto: UpdateTournamentDto) {
+    const tournamentFound = await this.findOne(id)
+    if (!tournamentFound) {
+      throw new NotFoundException(`Tournament with id: ${id.toUpperCase()} could be found `)
+    }
+    const result = await this.tournamentRepository.update(id, updateTournamentDto)
+    const tournamentUpdated = await this.findOne(id)
+    return {...result, tournamentUpdated};
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tournament`;
+  async remove(id: string) {
+    const tournamentFound = await this.findOne(id)
+    if (!tournamentFound) {
+      throw new NotFoundException(`Tournament with id: ${id.toUpperCase()} could be found `)
+    }
+    // return this.tournamentRepository.delete(id)
+    return this.tournamentRepository.softDelete(id);
   }
 }
