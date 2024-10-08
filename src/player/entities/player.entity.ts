@@ -18,12 +18,12 @@ export class Player {
     @Column("text")
     birthdate: Date;
 
-    @OneToMany(() => Ranking, ranking => ranking.player)
+    @OneToMany(() => Ranking, (ranking) => ranking.player)
     rankings: Ranking[]
 
-    @Column("text", {default: new Date()})
+    @Column("text", {default: new Date().toISOString()})
     createdAt: Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({select: false})
     deletedAt: Date
 }

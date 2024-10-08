@@ -4,8 +4,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlayerModule } from './player/player.module';
 import { TournamentModule } from './tournament/tournament.module';
 import { RankingModule } from './ranking/ranking.module';
+import { AllExceptionsFilter } from './common/filters/all-exception.filter';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true
