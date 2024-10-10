@@ -17,6 +17,13 @@ export class RankingController {
     return this.rankingService.findAll();
   }
 
+  @Get("/:id/tournament")
+  @ApiOperation({ summary: "you can find the ranking positions for each tournament" })
+  findRankingByTournament(@Param("id") id: string) {
+    return this.rankingService.findRankingsByTournament(id)
+  }
+
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.rankingService.findOne(id);

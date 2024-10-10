@@ -18,6 +18,12 @@ export class RankingService {
     return this.rankingRepository.save(rankingCreated)
   }
 
+  async findRankingsByTournament(id: string) {
+    let rankingList = await this.findAll()
+    rankingList = rankingList.filter((element) => element.tournament.id === id)
+    return rankingList
+  }
+
   async findAll() {
     const rankingArray = await this.rankingRepository.find({relations: {player: true, tournament: true}})
     rankingArray.sort((a, b) => b.score - a.score)
