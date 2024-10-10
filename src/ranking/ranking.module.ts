@@ -8,5 +8,6 @@ import { Ranking } from './entities/ranking.entity';
   imports: [TypeOrmModule.forFeature([Ranking])],
   controllers: [RankingController],
   providers: [RankingService],
+  exports: [RankingService]
 })
 export class RankingModule {}

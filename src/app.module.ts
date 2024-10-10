@@ -6,13 +6,14 @@ import { TournamentModule } from './tournament/tournament.module';
 import { RankingModule } from './ranking/ranking.module';
 import { AllExceptionsFilter } from './common/filters/all-exception.filter';
 import { APP_FILTER } from '@nestjs/core';
+import { ResultModule } from './result/result.module';
 
 @Module({
   providers: [
-    {
-      provide: APP_FILTER,
-      useClass: AllExceptionsFilter,
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: AllExceptionsFilter,
+    // },
   ],
   imports: [
     ConfigModule.forRoot({
@@ -30,7 +31,8 @@ import { APP_FILTER } from '@nestjs/core';
     }),
     PlayerModule,
     TournamentModule,
-    RankingModule
+    RankingModule,
+    ResultModule
   ],
 })
 export class AppModule {}
